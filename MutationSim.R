@@ -1,6 +1,5 @@
-# Alesandro Rigido
-# 2018-11-19
-# Mutation Impact Integrator Unit
+# Alex Rigido
+# Mutation simulaiton
 
 # Load appropriate libraries
 if (!requireNamespace("BiocManager", quietly = TRUE))
@@ -51,16 +50,13 @@ for (i in 1:N){
   # Generate a Random mutation via random sampling of each of the genes
   # which keeps assigning a random index number to the variable with
   # each iteration of the for-loop. This will feed forward into the 
-  # code next to select mutation postion. Credit to Vidharshana
-  # Sivakumar for collaboration on constructing the RandK/O/P variables
+  # code next to select mutation postion. 
   
   randK <- sample(grep(sample(KRascodons,1),KRascodons),1) 
   randO <- sample(grep(sample(OR1A1codons,1),OR1A1codons),1)  
   randP <- sample(grep(sample(PTPN11codons,1),PTPN11codons),1)
   
-  # The following code was source RPR-Genetic_code_optimality.R (Section 2.2.2)
-  # written by Boris Steipe and modified to fit the given parameters of this
-  # for loop.
+  # Simulate the point mutations
   
   K_code <- GENETIC_CODE[KRascodons[randK]]
   mtK <- KRascodons[randK]                    
@@ -77,7 +73,7 @@ for (i in 1:N){
   iNuc <- sample(1:3, 1)                         # choose one of the three
   mutNuc <- sample(NTs[NTs != triplet[iNuc]], 1) # chose a mutated nucleotide
   triplet[iNuc] <- mutNuc                        # replace the original 
-  mtO <- paste0(triplet, collapse = "")          # (Description by Boris Steipe)
+  mtO <- paste0(triplet, collapse = "")          
   mtO_code <- GENETIC_CODE[mtO]
   
   P_code <- GENETIC_CODE[PTPN11codons[randP]]
@@ -86,7 +82,7 @@ for (i in 1:N){
   iNuc <- sample(1:3, 1)                         # choose one of the three
   mutNuc <- sample(NTs[NTs != triplet[iNuc]], 1) # chose a mutated nucleotide
   triplet[iNuc] <- mutNuc                        # replace the original 
-  mtP <- paste0(triplet, collapse = "")          # (Description by Boris Steipe)
+  mtP <- paste0(triplet, collapse = "")          
   mtP_code <- GENETIC_CODE[mtP]
   
   # Now each iteration of the for-loop will have a mutation, and the following
@@ -127,10 +123,6 @@ for (i in 1:N){
 }
 
 # Give the for-loop time to run. Once done the Mutations have been generated.
-
-# Task: Contrast that with the relative frequency 
-# of the mutations in each category reported on 
-# the IntOGen Web page for each of the three genes.
 
 # for KRas (K)
 (K_silMutFREQ <- (K_silMut)/(N))
