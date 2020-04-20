@@ -4,15 +4,17 @@
 # Load appropriate libraries
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
-
-BiocManager::install("Biostrings")
-
+  BiocManager::install("Biostrings")
+library(Biostrings)
+  
+# Load data file
 load(file = "MutationSimulationCodons.RData")
-# The following codons that have been prepared
-# from this file
+
+# The following codons that have been prepared from this file
 KRascodons
 OR1A1codons
 PTPN11codons
+
 #====================================================================
 # Task: Write code that executes a loop N times 
 # (for N <- 100000) to create a point mutation 
