@@ -2,11 +2,8 @@
 # Mutation simulaiton
 
 # Load appropriate libraries
-if (!requireNamespace("BiocManager", quietly = TRUE))
-  install.packages("BiocManager")
-  BiocManager::install("Biostrings")
 library(Biostrings)
-  
+
 # Load data file
 load(file = "MutationSimulationCodons.RData")
 
@@ -131,21 +128,43 @@ for (i in 1:N){
 (K_misMutFREQ <- (K_misMut)/(N))  
 (K_nonMutFREQ <- (K_nonMut)/(N))
 # Check if normalized
-all.equal(sum(K_silMutFREQ, K_misMutFREQ, K_nonMutFREQ), 1) # True
+K <- c(K_silMutFREQ, K_misMutFREQ, K_nonMutFREQ)
+all.equal(sum(K), 1) # True
 
 # for OR1A1 (O)
 (O_silMutFREQ <- (O_silMut)/(N))
 (O_misMutFREQ <- (O_misMut)/(N))
 (O_nonMutFREQ <- (O_nonMut)/(N))
 # Check if normalized
-all.equal(sum(O_silMutFREQ, O_misMutFREQ, O_nonMutFREQ), 1) # True
+O <- c(O_silMutFREQ, O_misMutFREQ, O_nonMutFREQ)
+all.equal(sum(O), 1) # True
 
 # for PTPN11 (P)
 (P_silMutFREQ <- (P_silMut)/(N)) 
 (P_misMutFREQ <- (P_misMut)/(N)) 
 (P_nonMutFREQ <- (P_nonMut)/(N))
 # Check if normalized
-all.equal(sum(P_silMutFREQ, P_misMutFREQ, P_nonMutFREQ), 1) # True
+P <- c(P_silMutFREQ, P_misMutFREQ, P_nonMutFREQ)
+all.equal(sum(P), 1) # True
+
+# visualize the results
+tab <- matrix(c(K,O,P), ncol=3, byrow = T)
+colnames(tab) <- c("Silent", "Mismatch", "Nonsense")
+rownames(tab) <- c("KRas", "ORA1A", "PTPN11")
+tab <- as.table(tab)
+
+tab   # summary table of mutation frequencies
+
+{barplot(tab, 
+        main = "Summary of Mutation Types from Simulation", 
+        ylab="Mutation Frequency", xlab = "Type of Mutation",
+        ylim=c(0,1),
+        col = c("red","blue", "green"),
+        beside = T)
+legend("topright", title = "Oncogenes",
+       c("KRas", "ORA1A", "PTPN11"),
+       fill = c("red","blue", "green"))
+}
 
 #
 # [END]
